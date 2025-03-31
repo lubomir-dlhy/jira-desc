@@ -1,0 +1,127 @@
+{
+  "name": "jira-desc",
+  "displayName": "Jira Description for GitLens",
+  "version": "0.1.0",
+  "publisher": "vscode-tools",
+  "description": "Display Jira issue details in GitLens branches view",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:scm"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "jira-desc.configure",
+        "title": "Configure Jira Integration"
+      },
+      {
+        "command": "jira-desc.refreshJiraDetails",
+        "title": "Refresh Jira Details"
+      },
+      {
+        "command": "jira-desc.refreshBranches",
+        "title": "Refresh Branches",
+        "icon": "$(refresh)"
+      }
+    ],
+    "configuration": {
+      "title": "Jira Description",
+      "properties": {
+        "jira-desc.url": {
+          "type": "string",
+          "default": "",
+          "description": "Jira instance URL (e.g., https://your-domain.atlassian.net)"
+        },
+        "jira-desc.username": {
+          "type": "string",
+          "default": "",
+          "description": "Jira username (email)"
+        },
+        "jira-desc.apiToken": {
+          "type": "string",
+          "default": "",
+          "description": "Jira API token"
+        },
+        "jira-desc.branchPattern": {
+          "type": "string",
+          "default": "([A-Z]+-\\d+)",
+          "description": "Regular expression to extract Jira issue ID from branch names"
+        },
+        "jira-desc.cache.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable offline caching of Jira issues"
+        },
+        "jira-desc.cache.duration": {
+          "type": "number",
+          "default": 86400,
+          "description": "Cache duration in seconds (default 24h)"
+        }
+      }
+    },
+    "css": {
+      "webview.css": [
+        ".jira-info"
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "jira-desc-container",
+          "title": "Jira Description",
+          "icon": "$(git-branch)"
+        }
+      ]
+    },
+    "views": {
+      "scm": [
+        {
+          "id": "jira-desc.branchView",
+          "name": "Jira Branches",
+          "icon": "$(git-branch)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "jira-desc.refreshBranches",
+          "when": "view == jira-desc.branchView",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "debug": "npm run compile && node ./out/extension.js --inspect-brk"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.2.5",
+    "@types/vscode": "^1.80.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.3",
+    "@vscode/test-electron": "^2.3.2",
+    "@vscode/vsce": "^2.21.0"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "node-fetch": "^3.3.1"
+  }
+}

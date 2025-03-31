@@ -1,0 +1,60 @@
+.branch-hover {
+  background-color: var(--vscode-editor-background);
+  border: 1px solid var(--vscode-widget-border);
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: var(--vscode-editor-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  max-width: 400px;
+  padding: 8px 12px;
+}
+
+.branch-hover h3 {
+  color: var(--vscode-editor-foreground);
+  font-size: 14px;
+  margin: 0 0 8px 0;
+}
+
+.branch-hover p {
+  margin: 0 0 4px 0;
+}
+
+.jira-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jira-info .jira-field {
+  display: flex;
+  gap: 8px;
+}
+
+.jira-info .jira-field .label {
+  font-weight: bold;
+  min-width: 80px;
+}
+
+.jira-info .status {
+  display: inline-block;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.jira-info .status-inprogress {
+  background-color: #0052cc;
+  color: white;
+}
+
+.jira-info .status-done {
+  background-color: #36b37e;
+  color: white;
+}
+
+.jira-info .status-todo {
+  background-color: #ff991f;
+  color: white;
+}
