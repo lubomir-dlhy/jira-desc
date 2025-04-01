@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/lubomir-dlhy/jira-desc.git"
   },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.80.0"
   },
