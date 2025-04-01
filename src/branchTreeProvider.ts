@@ -23,6 +23,16 @@ export class BranchTreeItem extends vscode.TreeItem {
       this.tooltip.isTrusted = true;
       this.description = issue.status;
       this.label = this.getIssueTypeIcon(issue.type) + " " + label;
+
+      // Add context menu items
+      this.contextValue = "jiraIssue";
+
+      // Add command for when the item is clicked
+      this.command = {
+        command: "jiraDesc.openIssue",
+        title: "Open Issue",
+        arguments: [issue.key],
+      };
     }
   }
 

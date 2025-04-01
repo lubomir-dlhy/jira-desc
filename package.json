@@ -30,6 +30,14 @@
         "command": "jira-desc.refreshBranches",
         "title": "Refresh Branches",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "jiraDesc.openIssue",
+        "title": "Open Jira Issue"
+      },
+      {
+        "command": "jiraDesc.copyIssueKey",
+        "title": "Copy Jira Issue Key"
       }
     ],
     "configuration": {
@@ -96,6 +104,18 @@
           "command": "jira-desc.refreshBranches",
           "when": "view == jira-desc.branchView",
           "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "jiraDesc.copyIssueKey",
+          "when": "view == jiraBranches && viewItem == jiraIssue",
+          "group": "1_copy"
+        },
+        {
+          "command": "jiraDesc.openIssue",
+          "when": "view == jiraBranches && viewItem == jiraIssue",
+          "group": "2_open"
         }
       ]
     }
