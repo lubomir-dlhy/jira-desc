@@ -4,6 +4,10 @@
   "version": "0.1.2",
   "publisher": "vscode-tools",
   "description": "Display Jira issue details obtained from branches in SCM view",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lubomir-dlhy/jira-desc.git"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
