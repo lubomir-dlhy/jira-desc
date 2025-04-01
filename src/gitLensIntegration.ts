@@ -106,7 +106,7 @@ export class GitLensIntegration {
       const maxBranches = config.get<number>("maxBranches", 20);
       const branches = await repository.getBranches({
         remote: false,
-        // pattern: "heads/[A-Z]*-[0-9]*", // Let's get all local branches first and filter later
+        pattern: "heads/[A-Z]*-[0-9]*",
         sort: "committerdate",
         count: maxBranches === 0 ? undefined : maxBranches, // Use undefined for no limit if maxBranches is 0
       });
