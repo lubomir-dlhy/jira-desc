@@ -23,7 +23,7 @@ This extension enhances the SCM view by extracting Jira issue keys from your bra
 
 ### Option 1: Install from VSIX
 
-1.  Download the latest `.vsix` file from the [Releases page](https://github.com/lubomir-dlhy/jira-desc/releases) (Link needs to be created if publishing).
+1.  Download the latest `.vsix` file from the [Releases page](https://github.com/lubomir-dlhy/jira-desc/releases).
 2.  Open VS Code.
 3.  Go to the Extensions view (Ctrl+Shift+X or Cmd+Shift+X).
 4.  Click the "..." menu in the top-right corner.
