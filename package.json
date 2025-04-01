@@ -77,7 +77,7 @@
         },
         "jira-desc.maxBranches": {
           "type": "number",
-          "default": 20,
+          "default": 10,
           "description": "Maximum number of recent branches to fetch Jira details for (0 for unlimited)"
         }
       }
