@@ -33,11 +33,13 @@
       },
       {
         "command": "jiraDesc.openIssue",
-        "title": "Open Jira Issue"
+        "title": "Open Jira Issue",
+        "icon": "$(link-external)"
       },
       {
         "command": "jiraDesc.copyIssueKey",
-        "title": "Copy Jira Issue Key"
+        "title": "Copy Jira Issue Key",
+        "icon": "$(copy)"
       }
     ],
     "configuration": {
@@ -109,13 +111,13 @@
       "view/item/context": [
         {
           "command": "jiraDesc.copyIssueKey",
-          "when": "view == jiraBranches && viewItem == jiraIssue",
-          "group": "1_copy"
+          "when": "view == jira-desc.branchView && viewItem == jiraIssue",
+          "group": "inline"
         },
         {
           "command": "jiraDesc.openIssue",
-          "when": "view == jiraBranches && viewItem == jiraIssue",
-          "group": "2_open"
+          "when": "view == jira-desc.branchView && viewItem == jiraIssue",
+          "group": "inline@1"
         }
       ]
     }

@@ -12,7 +12,13 @@ export class BranchTreeItem extends vscode.TreeItem {
   ) {
     super(label, collapsibleState);
     if (issue && itemType === "issue") {
-      this.tooltip = new vscode.MarkdownString(`### ${issue.key}: ${issue.summary}\n\n`);
+      // Set context value for hover actions
+      this.contextValue = "jiraIssue";
+
+      // Set hover tooltip with markdown
+      this.tooltip = new vscode.MarkdownString();
+      this.tooltip.isTrusted = true;
+      this.tooltip.appendMarkdown(`### ${issue.key}: ${issue.summary}\n\n`);
       this.tooltip.appendMarkdown(`**Type:** ${issue.type}  \n`);
       this.tooltip.appendMarkdown(`**Status:** ${issue.status}  \n`);
       this.tooltip.appendMarkdown(`**Priority:** ${issue.priority}  \n`);
@@ -20,19 +26,11 @@ export class BranchTreeItem extends vscode.TreeItem {
       if (issue.description) {
         this.tooltip.appendMarkdown(`\n---\n\n${issue.description.substring(0, 200)}${issue.description.length > 200 ? "..." : ""}`);
       }
-      this.tooltip.isTrusted = true;
+
       this.description = issue.status;
       this.label = this.getIssueTypeIcon(issue.type) + " " + label;
 
-      // Add context menu items
-      this.contextValue = "jiraIssue";
-
-      // Add command for when the item is clicked
-      this.command = {
-        command: "jiraDesc.openIssue",
-        title: "Open Issue",
-        arguments: [issue.key],
-      };
+      // Default click command removed as inline icon is used
     }
   }
 

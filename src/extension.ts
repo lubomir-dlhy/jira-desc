@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { JiraService } from "./jiraService";
 import { GitLensIntegration } from "./gitLensIntegration";
-
+import { BranchTreeItem } from "./branchTreeProvider";
 export async function activate(context: vscode.ExtensionContext) {
   const outputChannel = vscode.window.createOutputChannel("Jira Description");
   const jiraService = new JiraService(outputChannel, context);
@@ -31,15 +31,39 @@ export async function activate(context: vscode.ExtensionContext) {
       vscode.commands.registerCommand("jira-desc.refreshBranches", () => {
         gitLens.refreshBranches();
       }),
-      vscode.commands.registerCommand('jiraDesc.openIssue', (issueKey: string) => {
-        const jiraUrl = vscode.workspace.getConfiguration('jiraDesc').get<string>('jiraUrl');
-        if (jiraUrl) {
-          vscode.env.openExternal(vscode.Uri.parse(`${jiraUrl}/browse/${issueKey}`));
+      vscode.commands.registerCommand("jiraDesc.openIssue", (arg: BranchTreeItem | string | undefined) => {
+        let key: string | undefined;
+        if (typeof arg === "string") {
+          key = arg;
+        } else if (arg instanceof BranchTreeItem && arg.issue) {
+          key = arg.issue.key;
+        }
+
+        if (key) {
+          const jiraUrl = vscode.workspace.getConfiguration("jira-desc").get<string>("url");
+          if (jiraUrl) {
+            vscode.env.openExternal(vscode.Uri.parse(`${jiraUrl}/browse/${key}`));
+          } else {
+            vscode.window.showWarningMessage("Jira URL not configured.");
+          }
+        } else {
+          vscode.window.showErrorMessage("Could not determine Jira issue key to open.");
         }
       }),
-      vscode.commands.registerCommand('jiraDesc.copyIssueKey', (issueKey: string) => {
-        vscode.env.clipboard.writeText(issueKey);
-        vscode.window.showInformationMessage(`Copied ${issueKey} to clipboard`);
+      vscode.commands.registerCommand("jiraDesc.copyIssueKey", (arg: BranchTreeItem | string | undefined) => {
+        let key: string | undefined;
+        if (typeof arg === "string") {
+          key = arg;
+        } else if (arg instanceof BranchTreeItem && arg.issue) {
+          key = arg.issue.key;
+        }
+
+        if (key) {
+          vscode.env.clipboard.writeText(key);
+          vscode.window.showInformationMessage(`Copied ${key} to clipboard`);
+        } else {
+          vscode.window.showErrorMessage("Could not determine Jira issue key to copy.");
+        }
       })
     );
 
