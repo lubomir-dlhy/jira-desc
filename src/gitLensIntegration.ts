@@ -102,11 +102,13 @@ export class GitLensIntegration {
 
       let branchData: any[] = [];
       let activeBranch: Branch | undefined = repository.state.HEAD;
+      const config = vscode.workspace.getConfiguration("jira-desc");
+      const maxBranches = config.get<number>("maxBranches", 20);
       const branches = await repository.getBranches({
         remote: false,
-        pattern: "heads/[A-Z]*-[0-9]*",
+        // pattern: "heads/[A-Z]*-[0-9]*", // Let's get all local branches first and filter later
         sort: "committerdate",
-        count: 10,
+        count: maxBranches === 0 ? undefined : maxBranches, // Use undefined for no limit if maxBranches is 0
       });
 
       // Create new state change listener and store its disposable

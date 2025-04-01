@@ -39,6 +39,7 @@ This extension enhances GitLens branches view by displaying Jira issue details d
 - `jira-desc.username`: Your Jira username (email)
 - `jira-desc.apiToken`: Your Jira API token
 - `jira-desc.branchPattern`: Regex pattern to extract Jira issue IDs from branch names (default: `([A-Z]+-\\d+)`)
+- `jira-desc.maxBranches`: Maximum number of recent branches to fetch Jira details for (default: 20, 0 for unlimited)
 - `jira-desc.cache.enabled`: Enable offline caching of Jira issues (default: true)
 - `jira-desc.cache.duration`: Cache duration in seconds (default: 86400, i.e., 24 hours)
 
