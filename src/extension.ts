@@ -5,6 +5,7 @@ import { BranchTreeItem } from "./branchTreeProvider";
 export async function activate(context: vscode.ExtensionContext) {
   const outputChannel = vscode.window.createOutputChannel("Jira Description");
   const jiraService = new JiraService(outputChannel, context);
+  await jiraService.initialize(); // Initialize JiraService asynchronously
   context.subscriptions.push(outputChannel);
   outputChannel.appendLine("Activating Jira Description extension");
 
@@ -26,7 +27,7 @@ export async function activate(context: vscode.ExtensionContext) {
     // Register commands
     context.subscriptions.push(
       vscode.commands.registerCommand("jira-desc.configure", async () => {
-        await configureJiraSettings();
+        await configureJiraSettings(context);
       }),
       vscode.commands.registerCommand("jira-desc.refreshBranches", () => {
         gitIntegration.refreshBranches();
@@ -74,7 +75,8 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 }
 
-async function configureJiraSettings() {
+async function configureJiraSettings(context: vscode.ExtensionContext) {
+  // Receive context
   const url = await vscode.window.showInputBox({
     prompt: "Enter your Jira URL (e.g., https://your-domain.atlassian.net)",
     value: vscode.workspace.getConfiguration("jira-desc").get("url", ""),
@@ -96,7 +98,10 @@ async function configureJiraSettings() {
       if (apiToken) {
         await vscode.workspace.getConfiguration("jira-desc").update("url", url, true);
         await vscode.workspace.getConfiguration("jira-desc").update("username", username, true);
-        await vscode.workspace.getConfiguration("jira-desc").update("apiToken", apiToken, true);
+        // Store the API token securely
+        await context.secrets.store("jiraApiToken", apiToken);
+        // Remove the insecurely stored token if it exists (optional, but good practice)
+        await vscode.workspace.getConfiguration("jira-desc").update("apiToken", undefined, true);
         vscode.window.showInformationMessage("Jira settings updated successfully.");
       }
     }

@@ -27,14 +27,18 @@ export class JiraService {
   constructor(outputChannel: vscode.OutputChannel, context: vscode.ExtensionContext) {
     this.outputChannel = outputChannel;
     this.context = context;
-    this.loadConfiguration();
   }
 
-  private loadConfiguration() {
+  public async initialize() {
+    await this.loadConfiguration();
+  }
+
+  private async loadConfiguration() {
     const config = vscode.workspace.getConfiguration("jira-desc");
     this.baseUrl = config.get<string>("url");
     this.username = config.get<string>("username");
-    this.apiToken = config.get<string>("apiToken");
+    // Retrieve the API token securely
+    this.apiToken = await this.context.secrets.get("jiraApiToken");
     this.cacheEnabled = config.get<boolean>("cache.enabled", true);
     this.cacheDuration = config.get<number>("cache.duration", 86400);
   }
