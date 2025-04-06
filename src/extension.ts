@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { JiraService } from "./jiraService";
-import { GitLensIntegration } from "./gitLensIntegration";
+import { GitIntegration } from "./gitIntegration";
 import { BranchTreeItem } from "./branchTreeProvider";
 export async function activate(context: vscode.ExtensionContext) {
   const outputChannel = vscode.window.createOutputChannel("Jira Description");
@@ -20,8 +20,8 @@ export async function activate(context: vscode.ExtensionContext) {
     outputChannel.appendLine("Git extension activated successfully");
 
     // Initialize services after Git is ready
-    const gitLens = new GitLensIntegration(jiraService, outputChannel);
-    await gitLens.initialize();
+    const gitIntegration = new GitIntegration(jiraService, outputChannel);
+    await gitIntegration.initialize();
 
     // Register commands
     context.subscriptions.push(
@@ -29,7 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
         await configureJiraSettings();
       }),
       vscode.commands.registerCommand("jira-desc.refreshBranches", () => {
-        gitLens.refreshBranches();
+        gitIntegration.refreshBranches();
       }),
       vscode.commands.registerCommand("jiraDesc.openIssue", (arg: BranchTreeItem | string | undefined) => {
         let key: string | undefined;
@@ -67,7 +67,7 @@ export async function activate(context: vscode.ExtensionContext) {
       })
     );
 
-    context.subscriptions.push(gitLens);
+    context.subscriptions.push(gitIntegration);
   } catch (error) {
     outputChannel.appendLine(`Failed to initialize: ${error}`);
     throw error;

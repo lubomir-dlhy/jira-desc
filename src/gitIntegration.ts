@@ -5,7 +5,7 @@ import { API as GitAPI, Repository, RefType, GitExtension, Branch } from "./type
 import { Cache } from "./cache";
 import { BranchTreeProvider, BranchTreeItem } from "./branchTreeProvider";
 
-export class GitLensIntegration {
+export class GitIntegration {
   private treeProvider: BranchTreeProvider;
   private treeView: vscode.TreeView<BranchTreeItem>;
   private jiraService: JiraService;
